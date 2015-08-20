@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+  <head>
+    <title>minimal sound</title>
+  </head>
+  <body>
+    <p>minimal sound.</p>
+    <p>
+      Reload to restart.
+      <button onclick="oscillator.stop(0)">Stop</button>
+    </p>
+    <p>tested with Chrome only (Version 44.0.2403.155 m, Aug 2015)</p>
+  </body>
+  <script>
+    var audioContext = new window.AudioContext
+    var oscillator = audioContext.createOscillator()
+    oscillator.connect(audioContext.destination)
+    oscillator.start(0)
+  </script>
+</html>
