@@ -2,3 +2,6 @@ STEINBRUCH
 *~
 *.wma
 
+# OSX
+.DS_Store
+
