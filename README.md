@@ -1,16 +1,15 @@
 # Minimal Web Audio
 
-A collection of easy examples for the Web Audio API http://webaudio.github.io/web-audio-api/#mixer-gain-structure
+A collection of easy examples for the Web Audio API http://webaudio.github.io/web-audio-api/
 
-
-## The Sources
+## The Audio Sources
 
 [x] Minimal sinus oscillator: minimal.html
 
 * Every audio node lives in an audio context, in the one it has been created by. 
 * The audio context knows its destination, that is which speakers to send the audio data to.
 * A freshly created oscillator produces a sine wave of 440 Hz. For another frequency, just set its 'frequency' property. (See, e.g., in the minimal PeriodicWave example.)
-* A source has to be plugged into something, so you can hear it. Here we directly plug it into context.destination.
+* A source has to be plugged into something, so you can hear it. Here we directly plug it into audioContext.destination.
 * Sources have start and stop methods that do, well, exactly what you expect.
 * ? What for is the detune property? (As I have frequency, this should be redundant.)
 * ? The 'when' parameter of start and stop of the oscillator is marked as optional in the spec - but I had to provide it, otherwise it didn't work.
@@ -30,13 +29,13 @@ A collection of easy examples for the Web Audio API http://webaudio.github.io/we
 [x] Minimal example for PeriodicWave
 
 * An oscillator can be started with a more general wave for but providing it with a PeriodicWave object. This contains the fourier transform of the wave, given in two arrays containing the real and imaginary part of the fourier transform.
-* If this was to dense for you: Give it an all zero imaginary part (just have to be of the same length as the real part), and see the real part as the overtone intensitiess of the instrument you want to model. I chose to provide only the odd overtones (the array starts with the zeroth element) to get an oboe like tone. For instruments, see e.g. here
+* If this was still to dense for you: Ignore the imaginary part, simply give it an all zero array (it just has to be of the same length as the real part), and see the real part as the overtone intensitiess of the instrument you want to model. I chose to provide only the odd overtones (the array starts with the zeroth element) to get an oboe like tone. For instruments, see e.g. here
 https://courses.physics.illinois.edu/phys193/Student_Reports/Fall03/Tammy_Linne_Andy_Schurman_Ivy_Thomas/Tammy_Linne_Andy_Schurman_Ivy_Thomas_Phys199pom_Final_Report.pdf
 * The periodic wave is simply set as property of the oscillator.
 
 
 
-## The Transformers
+## The Audio Transformers
 
 [ ] Minimal example for Gain
 
