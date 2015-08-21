@@ -10,7 +10,11 @@
         this.audio = new Audio();
         this.audio.src = url;
         this.source = context.createMediaElementSource(this.audio);
-        this.source.connect(context.destination);
+        this.filter = context.createBiquadFilter();
+        this.filter.type = this.filter.LOWPASS;
+        this.filter.frequency.value = 500;
+        this.source.connect(this.filter);
+        this.filter.connect(context.destination);
         this.audio.play();
       }
     </script>
