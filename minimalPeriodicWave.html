@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <title>minimal periodic wave</title>
+  </head>
+  <body>
+    <p>minimal periodic wave.</p>
+    <p>
+      Reload to restart.
+      <button onclick="oscillator.stop(0)">Stop</button>
+    </p>
+    <p>tested with Chrome only (Version 44.0.2403.155 m, Aug 2015)</p>
+  </body>
+  <script>
+    var audioContext = new window.AudioContext
+    var oscillator = audioContext.createOscillator()
+
+    // This is the periodic wave part
+    var realPart      = new Float32Array(
+       [0.0, 0.1, 0.0, 0.2, 0.0, 0.4, 0.0, 0.6, 0.0, 0.4, 0.0, 0.3, 0.0, 0.1])
+    var imaginaryPart = new Float32Array(
+       [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+    var wave = audioContext.createPeriodicWave(realPart, imaginaryPart)
+    oscillator.setPeriodicWave(wave)
+
+    // Set the frequency of the oscillator
+    oscillator.frequency.value = 60
+    oscillator.connect(audioContext.destination)
+    oscillator.start(0)
+  </script>
+</html>
