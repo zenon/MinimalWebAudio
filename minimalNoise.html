@@ -4,11 +4,11 @@
     <title>minimal noise</title>
       <script type="text/javascript">
 
-var context = new window.AudioContext;
+var audioContext = new window.AudioContext;
 
 // Generate buffer for 5 seconds white noise (1 channel)
-var lengthInSamples = 5 * context.sampleRate;
-var buffer = context.createBuffer(1, lengthInSamples, context.sampleRate);
+var lengthInSamples = 5 * audioContext.sampleRate;
+var buffer = audioContext.createBuffer(1, lengthInSamples, audioContext.sampleRate);
 var data = buffer.getChannelData(0);
 
 // Quote: non-interleaved IEEE 32-bit linear PCM with a nominal range of -1 -> +1
@@ -17,12 +17,12 @@ for (var i = 0; i < lengthInSamples; i++) {
 }
 		    
 // Create a source node from the buffer.
-var bufferSource = context.createBufferSource();
+var bufferSource = audioContext.createBufferSource();
 bufferSource.buffer = buffer;
 bufferSource.loop = true;
 
 // Plug it in.
-bufferSource.connect(context.destination);
+bufferSource.connect(audioContext.destination);
 bufferSource.start(0);
 
       </script>
