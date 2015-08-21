@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+  <head>
+    <title>minimal sound</title>
+  </head>
+  <body>
+    <p>minimal sound.</p>
+    <p>
+      <button onclick="play()">Play again</button>
+    </p>
+    <p>tested with Chrome only (Version 44.0.2403.155 m, Aug 2015)</p>
+  </body>
+  <script>
+    var audioContext = new window.AudioContext
+    var oscillator = audioContext.createOscillator()
+    var gainNode = audioContext.createGain()
+    // start with gain 0 - nothing to be heard
+    gainNode.gain.value = 0
+    oscillator.connect(gainNode)
+    gainNode.connect(audioContext.destination)
+    // start, but still nothing.
+    oscillator.start(0)
+
+    function play(){
+ 
+      gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 1)
+      gainNode.gain.linearRampToValueAtTime(5, audioContext.currentTime + 2)
+      gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 3)
+    }
+
+    play()
+    
+  </script>
+</html>
