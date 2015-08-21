@@ -27,6 +27,8 @@ A collection of easy examples for the Web Audio API http://webaudio.github.io/we
 Notes: You need a webserver, otherwise the browser will get confused. See
 minimalUseSoundFile/instructions.md
 
+TODO: More explanations
+
 [ ] Minimal use of microphone
 
 Quote from API: "Currently audio input is not specified in this document"
@@ -51,11 +53,20 @@ https://courses.physics.illinois.edu/phys193/Student_Reports/Fall03/Tammy_Linne_
 * The function 'play()' puts control events in the event queue of the gain node (stay at zero gain from now to 1 second later, then raise to 5 ending now + 2 secs, then go down to zero again ending now +3 secs.
 * ? Do I get this event interpretation right?
 
-[ ] Minimal example for Delay
+[x] Minimal example for Delay
+
+* Augmented from minimalGain.html
+* The construction of a delay node needs as argument a maximal delay (in seconds). If you set this to a minute (i.e. 60), you should be fine. The API prohibits maximum values large than 3 minutes. This maximum must, of course, be larger than the delay we want to use.
+* We set the delay to 5 seconds. (as the signal ends at 3 seconds (see the function play() ), this gives a good delay between the original signal and the delayed copy.
+* The gain node directly connects to audioContext.destination, but now we create a parallel path with delay: gainNode is pluggeed into the delay node, and this is too plugged into destination. This produces the second signal you hear.
+* There is an additional line, commented out. If you plug the delayNode into itself, the signal will cycle in the system, and be produced over and over again.
+
 
 [x] Minimal example for BiquadFilter: minimalUseSoundFile/liszt_minimal_filter.html
 
 Note: see notes about minimal sound file.
+
+TODO: More explanations
 
 [ ] Minimal example for Panning
 
