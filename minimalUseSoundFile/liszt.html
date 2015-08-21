@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+  <head>
+    <title>minimal sound</title>
+    <script type="text/javascript">
+      window.AudioContext = window.AudioContext || window.webkitAudioContext;
+      var context = new AudioContext();
+      var url = "liszt.mp3"
+      function loadSound() {
+        this.audio = new Audio();
+        this.audio.src = url;
+        this.source = context.createMediaElementSource(this.audio);
+        this.filter = context.createBiquadFilter();
+        this.filter.type = this.filter.LOWPASS;
+        this.filter.frequency.value = 500;
+        this.source.connect(this.filter);
+        this.filter.connect(context.destination);
+        this.audio.play();
+      }
+    </script>
+    </head>
+  <body>
+    <input type="button" onclick="loadSound();" value="Play">
+
+  </body>
+</html>
