@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+  <head>
+    <title>minimal biquad filter</title>
+    <script type="text/javascript">
+
+// COPIED FROM MINIMAL NOISE
+// (Only the range is changed to -0.5 .. 0.5)
+
+var audioContext = new window.AudioContext;
+// Generate buffer for 5 seconds white noise (1 channel)
+var lengthInSamples = 5 * audioContext.sampleRate;
+var buffer = audioContext.createBuffer(1, lengthInSamples, audioContext.sampleRate);
+var data = buffer.getChannelData(0);
+// Quote: non-interleaved IEEE 32-bit linear PCM with a nominal range of -1 -> +1
+for (var i = 0; i < lengthInSamples; i++) {
+data[i] = (Math.random() - 0.5);
+}
+// Create a source node from the buffer.
+var bufferSource = audioContext.createBufferSource();
+bufferSource.buffer = buffer;
+bufferSource.loop = true;
+
+// FILTER PART
+
+var filter = audioContext.createBiquadFilter();
+
+// kind of filter
+filter.type = "lowpass";
+// characteristic frequency
+filter.frequency.value = 440;
+// Q value
+filter.Q = 50;
+// gain
+filter.gain = 0;
+
+// Plug it in.
+
+bufferSource.gain = 0.5;
+bufferSource.connect(filter);
+filter.connect(audioContext.destination);
+bufferSource.start(0);
+
+// Analyser & Display		    
+
+var analyser = audioContext.createAnalyser();		    
+filter.connect(analyser);		    
+
+		    
+
+      </script>
+
+    </head>
+  <body>
+    <p>minimal biquad filter</p>
+    <p>Reload to start.
+      <input type="button" onclick="bufferSource.stop(0);" value="Stop">
+    </p>
+    <p>Set parameters here:
+      <br />
+      <font size="-1">(note that not every filter uses every parameter)</font>
+    </p>
+    <div>
+      <span>
+	<input id="frequency" type="range" min="100" max="1000" step="1" value="440" oninput="filter.frequency.value = this.value;">
+	Characteristic frequency
+      </span>
+      <br />
+      <span>
+	<input id="q" type="range" min="0" max="100" step="1" value="50" oninput="filter.Q.value = this.value;">
+	Q
+      </span>
+      <br />
+      <span>
+	<input id="gain" type="range" min="-3" max="3" step="0.1" value="0" oninput="filter.gain.value = this.value;">
+	Gain
+      </span>
+    </div>
+    <div>
+      <input type="radio" name="filterType" value="0" class="effect" checked onclick="filter.type='lowpass'">Low pass</input>
+      <input type="radio" name="filterType" value="0" class="effect" onclick="filter.type='highpass'">High pass</input>
+      <input type="radio" name="filterType" value="0" class="effect" onclick="filter.type='bandpass'">Band pass</input>
+      <input type="radio" name="filterType" value="0" class="effect" onclick="filter.type='lowshelf'">Low shelf</input>
+      <input type="radio" name="filterType" value="0" class="effect" onclick="filter.type='highshelf'">High shelf</input>
+      <input type="radio" name="filterType" value="0" class="effect" onclick="filter.type='peaking'">Peaking</input>
+      <input type="radio" name="filterType" value="0" class="effect" onclick="filter.type='notch'">Notch</input>
+      <input type="radio" name="filterType" value="0" class="effect" onclick="filter.type='allpass'">All pass</input>
+    </div>
+
+<!-- THE REST IS THE VISUALISATION   -->
+
+    <p>
+      <canvas width="640" height="240" style="border:1px solid #000000;">
+      </canvas>
+      
+    </p>
+    <p>tested with Chrome only (Version 45.0.2454.93 m, Sept 2015)</p>
+  </body>
+  <script>
+    
+var canvas = document.querySelector('canvas');
+var drawContext = canvas.getContext('2d');
+var times = new Uint8Array(analyser.frequencyBinCount);
+var WIDTH = 640;
+var HEIGHT = 240;
+
+var paint = function(){
+  //drawContext = canvas.getContext('2d');
+  drawContext.clearRect(0,0, canvas.width,canvas.height);
+  analyser.getByteTimeDomainData(times);
+  for (var i = 0; i < times.length; i++) {
+    var value = times[i];
+    var percent = value / 256;
+    var height = HEIGHT * percent;
+    var offset = HEIGHT - height - 1;
+    var barWidth = WIDTH/times.length;
+    drawContext.fillStyle = 'black';
+    drawContext.fillRect(i * barWidth, offset, 1, 1);
+  }
+  window.setTimeout(paint, 1000 / 60);
+}		      
+
+		      
+paint();		      
+
+  </script>
+
+</html>

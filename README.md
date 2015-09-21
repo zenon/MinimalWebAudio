@@ -62,11 +62,21 @@ https://courses.physics.illinois.edu/phys193/Student_Reports/Fall03/Tammy_Linne_
 * There is an additional line, commented out. If you plug the delayNode into itself, the signal will cycle in the system, and be produced over and over again.
 
 
-[x] Minimal example for BiquadFilter: minimalUseSoundFile/liszt_minimal_filter.html
+[x] Minimal example for BiquadFilter 1: minimalUseSoundFile/liszt_minimal_filter.html
 
 Note: see notes about minimal sound file.
 
 TODO: More explanations
+
+[x] Minimal example for BiquadFilter 2: minimalBiquadFilter.html
+
+Starting from the minimal noise example, we add one biquad filter.
+
+This is a complex filter that can play several roles, not just low pass and high pass. This example is not completely minimal, as I wanted to play with the parameter.
+
+TODO: Set  sensible ranges for Q and gain.
+
+The end of the file contains an example of the use an analyser to visualise the wave.
 
 [ ] Minimal example for Panning
 
@@ -74,7 +84,9 @@ TODO: More explanations
 
 ## Misc
 
-[ ] Minimal example for analyser (this thing can even FFT!), and visualisation.
+[x] Minimal example for analyser (this thing can even FFT!), and visualisation.
+
+1. minimalBiquadFilter.html - Just the oscilloscope.
 
 [ ] Minimal example for AudioWorker (what is this?)
 
