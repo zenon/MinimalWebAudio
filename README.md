@@ -35,6 +35,8 @@ Quote from API: "Currently audio input is not specified in this document"
 
 There are nevertheless extremely cool examples, like http://chromium.googlecode.com/svn/trunk/samples/audio/visualizer-live.html  Be aware that this may be less common for other browsers.
 
+*Note*: Chrome only accepts this when delivered by a web server. When read from a file, it failes _silently_.
+
 The example makes use of gain and delay, so you can hear what you speak into the phone a bit later. Take care with the gain, lower it immediately when there is feedback. Please report when the default (currently 0.75) is to high.
 
 The interesting point is to find the method to get the microphone stream, and then call it providing a callback.
