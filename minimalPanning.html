@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+  <head>
+    <title>minimal panning</title>
+  </head>
+  <body>
+    <p>minimal panning.</p>
+    <p>
+      Reload to restart.
+      <button onclick="oscillator.stop(0)">Stop</button>
+    </p>
+      <span>
+	<input id="pan" type="range" min="-3" max="3" step="0.1" value="0" oninput="panX(this.value);">
+	X
+      </span>
+      <br />
+      <span>
+	<input id="pan" type="range" min="-3" max="3" step="0.1" value="0" oninput="panY(this.value);">
+	Y
+      </span>
+      <br />
+      <span>
+	<input id="pan" type="range" min="-3" max="3" step="0.1" value="0" oninput="panZ(this.value);">
+	Z
+      </span>
+    <p>tested with Chrome only (Version 44.0.2403.155 m, Aug 2015)</p>
+  </body>
+  <script>
+    var audioContext = new window.AudioContext
+    var oscillator = audioContext.createOscillator()
+    var panner = audioContext.createPanner()
+    oscillator.connect(panner)
+    panner.connect(audioContext.destination)
+    oscillator.start(0)
+    var X = 0
+    var Y = 0
+    var Z = 0
+
+    function panX(x) {
+      X = x
+      panner.setPosition(X,Y,Z)
+    }
+    function panY(y) {
+      Y = y
+      panner.setPosition(X,Y,Z)
+    }
+    function panZ(z) {
+      Z = z
+      panner.setPosition(X,Y,Z)
+    }
+
+  </script>
+</html>

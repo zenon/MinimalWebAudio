@@ -1,0 +1,61 @@
+<html>
+<script>
+var audioContext = new AudioContext();
+var microphoneStream, delayNode, gainNode;
+
+// Collecting several ways of access.
+// As microphone access is not standardized, we have to do
+// trials now.
+if (!navigator.getUserMedia){
+  navigator.getUserMedia = 
+    navigator.getUserMedia || navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia || navigator.msGetUserMedia;
+}
+
+// did it work?
+if (!navigator.getUserMedia){
+   alert("I did not find a way to access the microphone."); 
+} else {
+   // Looks good. Prepare the nodes.
+   delayNode = audioContext.createDelay(5);
+   delayNode.delayTime.value = 0;
+   gainNode = audioContext.createGain();
+   gainNode.gain.value = 0.75;
+   delayNode.connect(gainNode)
+   gainNode.connect(audioContext.destination);
+   // Now claim the Mike.
+   navigator.getUserMedia(
+     // what media are requested
+     {audio:true},
+     // what to do when everything works
+     function(stream) {
+       microphoneStream = audioContext.createMediaStreamSource(stream);
+       // plug it in
+       microphoneStream.connect(delayNode);
+     },
+     // what to do when it fails
+     function(e) {
+       alert("Error in attempt to access the microphone: "+e);
+     }
+   );
+};
+</script>
+<body>
+  <span>
+    0 <input id="delay" type="range" min="0" max="5" step="0.1" value="0" oninput="delayNode.delayTime.value = this.value;">
+	5 Delay
+  </span>
+  <br />
+  <span>
+    0 <input id="gain" type="range" min="0" max="2" step="0.1" value="0.75" oninput="gainNode.gain.value = this.value;">
+	2 Gain
+  </span>
+  <br />
+  <p>
+    Be careful with the gain, you may get feedback soon.
+  </p>
+  <p>
+    Tested with Chrome Version 45.0.2454.101 m.
+  </p>
+</body>
+</html>

@@ -4,7 +4,7 @@ A collection of easy examples for the Web Audio API http://webaudio.github.io/we
 
 ## The Audio Sources
 
-[x] Minimal sinus oscillator: minimal.html
+### Minimal sinus oscillator: minimal.html
 
 * Every audio node lives in an audio context, in the one it has been created by. 
 * The audio context knows its destination, that is which speakers to send the audio data to.
@@ -15,27 +15,31 @@ A collection of easy examples for the Web Audio API http://webaudio.github.io/we
 * ? The 'when' parameter of start and stop of the oscillator is marked as optional in the spec - but I had to provide it, otherwise it didn't work.
 * ? Oscillator can create square, sawtooth, and triangle too. Test it!
 
-[x] Minimal use of buffer - white noise: minimalNoise.html
+### Minimal use of buffer - white noise: minimalNoise.html
 
 * We take a buffer, and fill it with random numbers.
 * Then we put the buffer into a buffer source, plug that into the destination, and are done.
 * To get a noise of indefinite length, we make the buffer source loop.
 * ? Is there a possibility to make it loop, say, trice?
 
-[x] Minimal use of sound file: minimalUseSoundFile/liszt_minimal_filter.html
+### Minimal use of sound file: minimalUseSoundFile/liszt_minimal_filter.html
 
 Notes: You need a webserver, otherwise the browser will get confused. See
 minimalUseSoundFile/instructions.md
 
 TODO: More explanations
 
-[ ] Minimal use of microphone
+### Minimal use of microphone: minimalMicrophone.html
 
 Quote from API: "Currently audio input is not specified in this document"
 
-There are nevertheless extremely cool examples, like http://chromium.googlecode.com/svn/trunk/samples/audio/visualizer-live.html , and we will try to make a minimal example for it too. Be aware that this may be less common for other browsers.
+There are nevertheless extremely cool examples, like http://chromium.googlecode.com/svn/trunk/samples/audio/visualizer-live.html  Be aware that this may be less common for other browsers.
 
-[x] Minimal example for PeriodicWave
+The example makes use of gain and delay, so you can hear what you speak into the phone a bit later. Take care with the gain, lower it immediately when there is feedback. Please report when the default (currently 0.75) is to high.
+
+The interesting point is to find the method to get the microphone stream, and then call it providing a callback.
+
+### Minimal example for PeriodicWave
 
 * An oscillator can be started with a more general wave for but providing it with a PeriodicWave object. This contains the fourier transform of the wave, given in two arrays containing the real and imaginary part of the fourier transform.
 * If this was still to dense for you: Ignore the imaginary part, simply give it an all zero array (it just has to be of the same length as the real part), and see the real part as the overtone intensitiess of the instrument you want to model. I chose to provide only the odd overtones (the array starts with the zeroth element) to get an oboe like tone. For instruments, see e.g. here
@@ -47,13 +51,13 @@ https://courses.physics.illinois.edu/phys193/Student_Reports/Fall03/Tammy_Linne_
 
 ## The Audio Transformers
 
-[x] Minimal example for Gain: minimalGain.html
+### Minimal example for Gain: minimalGain.html
 
 * Staring from the oscillator example, we plug a gain node between oscillator and destination.
 * The function 'play()' puts control events in the event queue of the gain node (stay at zero gain from now to 1 second later, then raise to 5 ending now + 2 secs, then go down to zero again ending now +3 secs.
 * ? Do I get this event interpretation right?
 
-[x] Minimal example for Delay
+### Minimal example for Delay
 
 * Augmented from minimalGain.html
 * The construction of a delay node needs as argument a maximal delay (in seconds). If you set this to a minute (i.e. 60), you should be fine. The API prohibits maximum values large than 3 minutes. This maximum must, of course, be larger than the delay we want to use.
@@ -62,13 +66,13 @@ https://courses.physics.illinois.edu/phys193/Student_Reports/Fall03/Tammy_Linne_
 * There is an additional line, commented out. If you plug the delayNode into itself, the signal will cycle in the system, and be produced over and over again.
 
 
-[x] Minimal example for BiquadFilter 1: minimalUseSoundFile/liszt_minimal_filter.html
+### Minimal example for BiquadFilter 1: minimalUseSoundFile/liszt_minimal_filter.html
 
 Note: see notes about minimal sound file.
 
 TODO: More explanations
 
-[x] Minimal example for BiquadFilter 2: minimalBiquadFilter.html
+### Minimal example for BiquadFilter 2: minimalBiquadFilter.html
 
 Starting from the minimal noise example, we add one biquad filter.
 
@@ -78,17 +82,27 @@ TODO: Set  sensible ranges for Q and gain.
 
 The end of the file contains an example of the use an analyser to visualise the wave.
 
-[ ] Minimal example for Panning
+### Minimal example for Panning: minimalPanning
 
-[ ] Minimal example for convolution
+Try it out.
+
+TODO: documentation.
+
+
+
+### Minimal example for convolution
+
+TODO
 
 ## Misc
 
-[x] Minimal example for analyser (this thing can even FFT!), and visualisation.
+### Minimal example for analyser (this thing can even FFT!), and visualisation.
 
-1. minimalBiquadFilter.html - Just the oscilloscope.
+minimalBiquadFilter.html - Just the oscilloscope.
 
-[ ] Minimal example for AudioWorker (what is this?)
+TODO: Still much to learn here.
+
+### Minimal example for AudioWorker (what is this?)
 
 ## Some Explanations
 
