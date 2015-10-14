@@ -1,6 +1,6 @@
 # Minimal Web Audio
 
-A collection of easy examples for the Web Audio API http://webaudio.github.io/web-audio-api/
+A collection of easy examples for the Web Audio API http://www.w3.org/TR/webaudio/
 
 ## The Audio Sources
 
