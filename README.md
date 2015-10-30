@@ -94,7 +94,28 @@ TODO: documentation.
 
 ### Minimal example for convolution
 
-TODO
+minimalConvolution.html
+
+WORK IN PROGRESS
+
+A convolution can be used for various linear effects. Realistic reverberations
+are among them.
+
+The fun fact is that a room can be "sampled" metaphorically speaking by
+recording it so called impulse response, the echo it gives for an ideal,
+infinitely short bang. (There is some math involved here.)
+
+Then the sound you want to hear with the reverberation of a room is
+convolved by this impulse response of the room.
+
+TODO / Clarify:
+
+- For these small examples, I'd like to get rid of call backs as far as possible.
+  I presume that XMLHttpRequest is not the only way to fill a buffer with data
+  from a file. But how?
+- Remove convolution is not implemented.
+- How do I create a convolution that does nothing? I assumed that one 1.0 per
+  channel should to the trick, but that's very quiet plus somehow nevertheless distorted.
 
 ## Misc
 
@@ -109,3 +130,8 @@ TODO: Still much to learn here.
 ## Some Explanations
 
 TODO
+
+## Notes
+
+* How to model an LFO? Can we use low bandwith here? How?
+* More general: Do we want to separate control flow from audio flow?

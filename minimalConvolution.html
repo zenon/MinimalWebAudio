@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+  <head>
+    <title>minimal sound</title>
+    <script type="text/javascript">
+      window.AudioContext = window.AudioContext || window.webkitAudioContext;
+
+      var audioContext = new AudioContext();
+      
+      var gain = audioContext.createGain();
+      gain.connect(audioContext.destination);
+      
+      function loadSound() {
+        var sf = document.getElementById("soundFiles");
+        var url = sf.value;
+        var audio = new Audio();
+        audio.src = url;
+        var source = audioContext.createMediaElementSource(audio);
+        source.connect(gain);
+        audio.play();
+      }
+
+      var convolver;
+
+
+      // failed experiment
+      function test01() {
+        var sf = document.getElementById("soundFiles");
+        var cf = document.getElementById("convolutionFiles");
+        var urlSound = sf.value;
+        var urlConv = cf.value;
+        var audio = new Audio();
+        audio.src = urlSound;
+        var audioSource = audioContext.createMediaElementSource(audio);
+        var conv = new Audio();
+        conv.src = urlConv;
+        var convSource = audioContext.createMediaElementSource(conv);
+        convolver = audioContext.createConvolver();
+        audioSource.connect(convolver);
+      convolver.connect(gain);
+      //this doesn't seem to work. Hm.
+        convolver.buffer = convSource.buffer;
+        audio.play();
+      }
+
+      
+      function loadSoundWithConvolution() {
+        var sf = document.getElementById("soundFiles");
+        var cf = document.getElementById("convolutionFiles");
+        var urlSound = sf.value;
+        var urlConv = cf.value;
+        var audio = new Audio();
+        audio.src = urlSound;
+        var audioSource = audioContext.createMediaElementSource(audio);
+        convolver = audioContext.createConvolver();
+        audioSource.connect(convolver);
+        convolver.connect(gain);
+        var request = new XMLHttpRequest();
+        request.open("GET", urlConv, true);
+        request.responseType = "arraybuffer";
+        request.onload = function () {
+          audioContext.decodeAudioData(request.response, function(buffer) {
+            convolver.buffer = buffer;
+            audio.play();
+          });
+        };
+        request.send();
+      }
+
+      function addConvolution(){
+        var cf = document.getElementById("convolutionFiles");
+        var urlConv = cf.value;
+        var conv = new Audio();
+        var request = new XMLHttpRequest();
+        request.open("GET", urlConv, true);
+        request.responseType = "arraybuffer";
+        request.onload = function () {
+          audioContext.decodeAudioData(request.response, function(buffer) {
+            convolver.buffer = buffer;
+          });
+        };
+        request.send();
+      }
+
+      function removeConvolution(){
+        var conv = new Audio();
+        var lengthInSamples = 1; //0.01 * audioContext.sampleRate;
+
+        var buffer = audioContext.createBuffer(2, lengthInSamples, audioContext.sampleRate);
+        var dataLeft = buffer.getChannelData(0);
+        var dataRight = buffer.getChannelData(1);
+
+        // Quote: non-interleaved IEEE 32-bit linear PCM with a nominal range of -1 -> +1
+        for (var i = 0; i < lengthInSamples; i++) {
+          dataLeft[i] = 1.0;
+          dataRight[i] = 1.0;
+        }
+        convolver.buffer = buffer;
+      }
+     
+      /*
+      Not the best way, just the easiest, without any clean up:
+      Just plug the playing stuff off the speakers.
+      */
+      function reset(){
+        gain.disconnect(audioContext.destination);
+        gain = audioContext.createGain();
+        gain.connect(audioContext.destination);
+      }
+    </script>
+    </head>
+  <body>
+
+    The sound files
+    <div>
+      <select id="soundFiles">
+	<option>/minimalUseSoundFile/liszt.mp3</option>
+	<option>/sound/cardiod-rear-levelled.wav</option>
+	<option>/sound/irHall.ogg</option>
+	<option>/sound/irRoom.wav</option>
+	<option>/sound/s2_r4_bd.wav</option>
+	<option>/sound/tim-stretch2.wav</option>
+      </select>
+    </div>
+
+    <input type="button" onclick="loadSound();" value="Play sound without convolution">
+
+    <br />
+&nbsp;
+    <br />
+
+    The convolutions
+    <div>
+      <select id="convolutionFiles">
+	<option>/sound/irRoom.wav</option>
+	<option>/sound/irHall.ogg</option>
+	<option>/sound/cardiod-rear-levelled.wav</option>
+	<option>/sound/s2_r4_bd.wav</option>
+	<option>/sound/tim-stretch2.wav</option>
+	<option>/minimalUseSoundFile/liszt.mp3</option>
+      </select>
+    </div>
+    <input type="button" onclick="loadSoundWithConvolution();" value="Start to play sound with convolution">
+    <br />
+    <input type="button" onclick="addConvolution();" value="Change convolution">
+    <input type="button" onclick="removeConvolution();" value="Remove convolution">
+    &nbsp;
+    <br />
+
+    <input type="button" onclick="reset();" value="Stop"
+    <br />
+&nbsp;
+    <br />
+    "Change convolution" only works, when the song is started with a convolution.
+    <br />
+    "Remove .." doesn't work, yet.    
+  </body>
+</html>
