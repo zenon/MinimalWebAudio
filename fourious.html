@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="cache-control" content="no-cache">
+	<meta charset="UTF-8">
+    <title>FT Playground</title>
+    <style>
+* { margin:0px; padding:2px; } /* No(t much) top and left whitespace */
+body {background:#eee;} /* Just to see it is there. */
+canvas { outline: 1px solid green; display:block; } /* No scrollbars? */
+    </style>
+      <script src="fourier.js"></script>
+  </head>
+  <body onload="draw();">
+
+    <button type="button" onclick="draw();">draw</button> N > 2000 may get slow.
+
+    <form id="signalDescription">
+      <table>
+	<tr>
+	  <td>
+	    Number of data points: N = <input id="N" value="1024" size="4">
+	  </td>
+	  <td>
+	    A parameter: M = <input id="M" value="4" size="4">
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    Quantisation: sample size = <input id="sampleSize" value="16" size="4">
+	  </td>
+	  <td>
+	    Shift (etc.): &beta; = <input id="b" value="0" size="4">
+	  </td>
+	</tr>
+	<tr>
+	  <td>&nbsp;
+	  </td>
+	  <td>
+	    <input type="radio" id="signalCosine" name="signal" value="cosine" />
+	    <label for="signalCosine">Cosine with M periods (M>0, shiftable)</label>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <input type="radio" id="signalDelta" name="signal" value="delta"
+		   checked="checked"/>
+	    <label for="signalDelta">Delta at &beta;</label>
+	  </td>
+	  <td>
+	    <input type="radio" id="signalSine" name="signal" value="sine" />
+	    <label for="signalSine">Sine with M periods (M>0, shiftable)</label>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <input type="radio" id="signalSquare" name="signal" value="square" />
+	    <label for="signalSquare">Square with M periods (M>0, shiftable)</label>
+	  </td>
+	  <td>
+	    <input type="radio" id="signalPulse" name="signal" value="pulse"/>
+	    <label for="signalPulse">Pulse with M tooths (M>0, &beta;>0 pulse length)</label>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <input type="radio" id="signalSawtooth" name="signal" value="sawtooth"/>
+	    <label for="signalSawtooth">Sawtooth with M tooths (M>0, shiftable)</label>
+	  </td>
+	  <td>
+	    <input type="radio" id="signalRamp" name="signal" value="ramp" />
+	    <label for="signalRamp">Ramp with M periods (M>0, shiftable)</label>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <input type="radio" id="signalTriangle" name="signal" value="triangle"/>
+	    <label for="signalTriangle">Triangle with M periods (M>0, shiftable)</label>
+	  </td>
+	  <td>
+	    <input type="radio" id="signalNoise" name="signal" value="noise" />
+	    <label for="signalNoise">All noise</label>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <input type="radio" id="signalNoiseR" name="signal" value="noiseR" />
+	    <label for="signalNoiseR">Real noise</label>
+	  </td>
+	  <td>
+	    <input type="radio" id="signalNoiseI" name="signal" value="noiseI" />
+	    <label for="signalNoiseI">Imaginary noise</label>
+	  </td>
+	</tr>
+	<tr><td colspan="2">&nbsp;</td></tr>
+	<tr>
+	  <td colspan="2">Signal in Time Domain</td>
+	</tr>
+	<tr>
+	  <td>Real part</td>
+	  <td>Imaginary part</td>
+	</tr>
+	<tr>
+	  <td><canvas id="canvas01"></canvas></td>
+	  <td><canvas id="canvas02"></canvas></td>
+	</tr>
+	<tr><td colspan="2">&nbsp;</td></tr>
+	<tr>
+	  <td colspan="2">Signal in Frequency Domain. i.e. FT(signal)</td>
+	</tr>
+	<tr>
+	  <td>Real part</td>
+	  <td>Imaginary part</td>
+	</tr>
+	<tr>
+	  <td><canvas id="canvas03"></canvas></td>
+	  <td><canvas id="canvas04"></canvas></td>
+	</tr>
+	<tr><td colspan="2">&nbsp;</td></tr>
+	<tr>
+	  <td colspan="2">FT(FT(signal))</td>
+	</tr>
+	<tr>
+	  <td>Real part</td>
+	  <td>Imaginary part</td>
+	</tr>
+	<tr>
+	  <td><canvas id="canvas05"></canvas></td>
+	  <td><canvas id="canvas06"></canvas></td>
+	</tr>
+	<tr><td colspan="2">&nbsp;</td></tr>
+	<tr>
+	  <td colspan="2">Signal minus InvFT(FT(signal)). Must be all zero of course, but better check ..</td>
+	</tr>
+	<tr>
+	  <td>Real part</td>
+	  <td>Imaginary part</td>
+	</tr>
+	<tr>
+	  <td><canvas id="canvas07"></canvas></td>
+	  <td><canvas id="canvas08"></canvas></td>
+	</tr>
+      </table>
+    </form>    
+  </body>
+</html>
